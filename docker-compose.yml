@@ -1,0 +1,43 @@
+version: "3"
+services:
+  opencart:
+    build:
+      context: .
+      dockerfile: ./.docker/Dockerfile
+    ports:
+      - ${OC_HTTP_PORT:-8080}:80
+    environment:
+      - OPENCART_HOST="http://localhost:${OC_HTTP_PORT:-8080}"
+      - OPENCART_DATABASE_HOST=db
+      - OPENCART_DATABASE_PORT_NUMBER=3306
+      - OPENCART_DATABASE_USER=root
+      - OPENCART_DATABASE_PASSWORD=root
+      - OPENCART_DATABASE_NAME=domain
+    volumes:
+      - ./src:/var/www/html:delegated
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8
+    container_name: ${COMPOSE_PROJECT_NAME}_db
+    command: --default-authentication-plugin=mysql_native_password
+    restart: "no"
+    environment:
+      - MYSQL_DATABASE=domain
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./transfer:/docker-entrypoint-initdb.d:delegated
+      - opencart-db:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    container_name: ${COMPOSE_PROJECT_NAME}_adminer
+    restart: "no"
+    environment:
+      - ADMINER_DEFAULT_SERVER=db
+    ports:
+      - ${ADMINER_HTTP_PORT:-8081}:8080
+volumes:
+  opencart-db:
+    name: ${COMPOSE_PROJECT_NAME}_opencart3_db

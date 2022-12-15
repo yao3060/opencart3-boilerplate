@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -aeuo pipefail
+
+# create the dotenv file if it doesn't exist
+if [ ! -f .env ]; then
+  cp .env.default .env
+fi
+
+source .env
+
+# overwrite `COMPOSE_PROJECT_NAME` by git branch name
+BRANCH=$(git symbolic-ref --short HEAD)
+export COMPOSE_PROJECT_NAME="${BRANCH}_${ENVIRONMENT}"
+
+docker-compose $@

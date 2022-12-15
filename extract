@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# 读取 EXT_FILES 中的文件，复制到 dist 目录中去
+
+
+FILE_PATH="src/admin/controller/extension/payment/payermax.php"
+
+FILE_DIR="$(dirname ${FILE_PATH})"
+
+DIST_DIR="${FILE_DIR/src/dist}"
+DIST_FILE="${FILE_PATH/src/dist}"
+
+echo "dist directory: $DIST_DIR"
+echo "dist file: $DIST_FILE"
+
+mkdir -p "$DIST_DIR"
+
+cp $FILE_PATH $DIST_FILE

@@ -1,0 +1,6 @@
+dist
+.env
+src/image/cache/
+src/system/storage/cache/
+*.log
+sess_*
