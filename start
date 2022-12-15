@@ -18,7 +18,7 @@ source .env
 
 # overwrite `COMPOSE_PROJECT_NAME` by git branch name
 BRANCH=$(git symbolic-ref --short HEAD)
-export COMPOSE_PROJECT_NAME="${BRANCH}_${ENVIRONMENT}"
+export COMPOSE_PROJECT_NAME="${PROJECT}_${BRANCH}_${ENVIRONMENT}"
 
 echo "start modules"
 ./docker-compose up $@
