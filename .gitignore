@@ -4,3 +4,4 @@ src/image/cache/
 src/system/storage/cache/
 *.log
 sess_*
+.DS_Store
